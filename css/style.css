@@ -672,10 +672,6 @@ h3 { font-size: clamp(1.15rem, 2vw, 1.5rem); }
 }
 
 @media (max-width: 480px) {
-  .skills-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
   .section {
     padding: 3rem 0;
   }
