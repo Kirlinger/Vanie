@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Vanie 💗 Kirlinger</title>
+  <style>
+    /* ─── Reset & base ─────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #fff0f5 0%, #ffe4ec 40%, #ffd6e8 100%);
+      font-family: 'Georgia', serif;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* ─── Decorated corners ─────────────────────────────────── */
+    .corner {
+      position: fixed;
+      width: 120px;
+      height: 120px;
+      pointer-events: none;
+      z-index: 10;
+    }
+    .corner svg { width: 100%; height: 100%; }
+    .corner--tl { top: 0;    left: 0; }
+    .corner--tr { top: 0;    right: 0;  transform: scaleX(-1); }
+    .corner--bl { bottom: 0; left: 0;   transform: scaleY(-1); }
+    .corner--br { bottom: 0; right: 0;  transform: scale(-1); }
+
+    /* ─── Floating hearts & flowers from bottom ─────────────── */
+    .floaties-container {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 1;
+    }
+    .floaty {
+      position: absolute;
+      bottom: -60px;
+      font-size: 1.6rem;
+      animation: floatUp linear infinite;
+      opacity: 0;
+      user-select: none;
+    }
+    @keyframes floatUp {
+      0%   { transform: translateY(0) rotate(0deg);   opacity: 0; }
+      10%  { opacity: 0.9; }
+      90%  { opacity: 0.6; }
+      100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
+    }
+
+    /* ─── Main layout ───────────────────────────────────────── */
+    .page-wrap {
+      position: relative;
+      z-index: 5;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 24px 16px 40px;
+      gap: 28px;
+    }
+
+    /* ─── Title ─────────────────────────────────────────────── */
+    .title {
+      font-size: clamp(1.4rem, 5vw, 2.2rem);
+      color: #c2185b;
+      text-align: center;
+      text-shadow: 0 2px 8px rgba(194,24,91,.25);
+      animation: titlePulse 3s ease-in-out infinite;
+      line-height: 1.4;
+      max-width: 640px;
+    }
+    @keyframes titlePulse {
+      0%,100% { transform: scale(1); }
+      50%      { transform: scale(1.03); }
+    }
+
+    /* ─── Bears row ─────────────────────────────────────────── */
+    .bears-row {
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      gap: clamp(8px, 4vw, 40px);
+      width: 100%;
+      max-width: 560px;
+    }
+    .bear-svg {
+      width: clamp(100px, 28vw, 160px);
+      height: auto;
+      animation: bearBounce 2.4s ease-in-out infinite;
+      filter: drop-shadow(0 4px 12px rgba(194,24,91,.3));
+    }
+    .bear-svg.right { animation-delay: 0.4s; transform-origin: bottom center; }
+    @keyframes bearBounce {
+      0%,100% { transform: translateY(0); }
+      50%      { transform: translateY(-8px); }
+    }
+
+    /* ─── Center beating heart ──────────────────────────────── */
+    .center-heart {
+      font-size: clamp(3rem, 12vw, 5.5rem);
+      animation: heartbeat 0.9s ease-in-out infinite;
+      display: block;
+      line-height: 1;
+    }
+    @keyframes heartbeat {
+      0%   { transform: scale(1); }
+      14%  { transform: scale(1.25); }
+      28%  { transform: scale(1); }
+      42%  { transform: scale(1.18); }
+      70%  { transform: scale(1); }
+      100% { transform: scale(1); }
+    }
+
+    /* ─── Question card ─────────────────────────────────────── */
+    .question-card {
+      background: rgba(255,255,255,.72);
+      backdrop-filter: blur(8px);
+      border: 2px solid rgba(194,24,91,.2);
+      border-radius: 24px;
+      padding: clamp(18px, 5vw, 32px) clamp(20px, 6vw, 48px);
+      max-width: 560px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 8px 32px rgba(194,24,91,.15);
+      animation: fadeIn 1s ease both;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .question-text {
+      font-size: clamp(1.1rem, 4vw, 1.5rem);
+      color: #880e4f;
+      margin-bottom: 28px;
+      line-height: 1.5;
+    }
+
+    /* ─── Buttons row ───────────────────────────────────────── */
+    .btn-row {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+      min-height: 56px;
+    }
+
+    .btn {
+      border: none;
+      border-radius: 50px;
+      padding: 14px 38px;
+      font-size: clamp(1rem, 4vw, 1.2rem);
+      font-family: 'Georgia', serif;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform .15s, box-shadow .15s;
+      position: relative;
+    }
+    .btn:active { transform: scale(.96); }
+
+    .btn-oui {
+      background: linear-gradient(135deg, #f06292, #e91e8c);
+      color: #fff;
+      box-shadow: 0 4px 18px rgba(233,30,140,.4);
+      position: fixed; /* will be overridden inline when fleeing */
+      white-space: nowrap;
+    }
+    .btn-oui:not(.fleeing) { position: relative; }
+    .btn-oui.fleeing { position: fixed; }
+
+    .btn-non {
+      background: linear-gradient(135deg, #ba68c8, #9c27b0);
+      color: #fff;
+      box-shadow: 0 4px 18px rgba(156,39,176,.35);
+    }
+
+    /* ─── Final success message ─────────────────────────────── */
+    .final-msg {
+      display: none;
+      font-size: clamp(1.2rem, 5vw, 1.8rem);
+      color: #ad1457;
+      text-align: center;
+      animation: popIn .6s cubic-bezier(.34,1.56,.64,1) both;
+      line-height: 1.6;
+      padding: 16px 8px;
+    }
+    .final-msg.visible { display: block; }
+    @keyframes popIn {
+      from { opacity: 0; transform: scale(.4); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+
+    /* ─── Toast / congrats banner ───────────────────────────── */
+    .toast {
+      position: fixed;
+      top: -100px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, #43a047, #66bb6a);
+      color: #fff;
+      font-size: clamp(1rem, 4vw, 1.3rem);
+      font-weight: bold;
+      padding: 16px 32px;
+      border-radius: 50px;
+      box-shadow: 0 6px 24px rgba(67,160,71,.45);
+      z-index: 1000;
+      text-align: center;
+      white-space: nowrap;
+      transition: top .5s cubic-bezier(.34,1.56,.64,1);
+      pointer-events: none;
+    }
+    .toast.show { top: 24px; }
+
+    /* ─── Modal overlay ─────────────────────────────────────── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(30,0,60,.55);
+      backdrop-filter: blur(4px);
+      z-index: 500;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .modal-overlay.open { display: flex; }
+
+    .modal {
+      background: linear-gradient(160deg, #e8eaf6 0%, #c5cae9 100%);
+      border-radius: 28px;
+      padding: clamp(24px, 6vw, 48px);
+      max-width: 420px;
+      width: 100%;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 16px 64px rgba(0,0,40,.45);
+      animation: modalSlideIn .5s cubic-bezier(.34,1.56,.64,1) both;
+    }
+    @keyframes modalSlideIn {
+      from { transform: translateY(80px) scale(.8); opacity: 0; }
+      to   { transform: translateY(0)    scale(1);  opacity: 1; }
+    }
+
+    /* ─── Rain inside modal ─────────────────────────────────── */
+    .rain-container {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .raindrop {
+      position: absolute;
+      top: -20px;
+      width: 2px;
+      border-radius: 2px;
+      background: linear-gradient(to bottom, rgba(100,149,237,.0), rgba(100,149,237,.8));
+      animation: rainFall linear infinite;
+    }
+    @keyframes rainFall {
+      from { transform: translateY(0); opacity: 0.8; }
+      to   { transform: translateY(110%); opacity: 0.2; }
+    }
+
+    /* ─── Sad bear in modal ─────────────────────────────────── */
+    .sad-bear {
+      width: clamp(120px, 40vw, 180px);
+      height: auto;
+      margin: 0 auto 16px;
+      display: block;
+      animation: sadShake 1.8s ease-in-out infinite;
+    }
+    @keyframes sadShake {
+      0%,100% { transform: translateX(0) rotate(0deg); }
+      20%      { transform: translateX(-5px) rotate(-3deg); }
+      40%      { transform: translateX(5px)  rotate(3deg); }
+      60%      { transform: translateX(-3px) rotate(-2deg); }
+      80%      { transform: translateX(3px)  rotate(2deg); }
+    }
+
+    .modal-msg {
+      font-size: clamp(1rem, 4vw, 1.2rem);
+      color: #283593;
+      line-height: 1.7;
+      position: relative;
+      z-index: 2;
+      margin-top: 8px;
+    }
+
+    .modal-close {
+      margin-top: 24px;
+      padding: 12px 32px;
+      border: none;
+      border-radius: 50px;
+      background: linear-gradient(135deg, #7986cb, #5c6bc0);
+      color: #fff;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      position: relative;
+      z-index: 2;
+      box-shadow: 0 4px 14px rgba(92,107,192,.5);
+    }
+    .modal-close:hover { filter: brightness(1.1); }
+
+    /* ─── Tear drops from bear ──────────────────────────────── */
+    .tear {
+      position: absolute;
+      width: 6px;
+      height: 12px;
+      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+      background: rgba(100,149,237,.8);
+      animation: tearFall .8s ease-in infinite;
+      pointer-events: none;
+    }
+    @keyframes tearFall {
+      0%   { opacity: 1; transform: translateY(0); }
+      100% { opacity: 0; transform: translateY(40px); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Decorated Corners ── -->
+  <div class="corner corner--tl">
+    <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M5 5 Q60 5 60 60" stroke="#f48fb1" stroke-width="3" fill="none" stroke-dasharray="6 4"/>
+      <path d="M5 5 Q5 60 60 60" stroke="#f48fb1" stroke-width="3" fill="none" stroke-dasharray="6 4"/>
+      <text x="8"  y="28"  font-size="18">🌸</text>
+      <text x="28" y="12"  font-size="14">💕</text>
+      <text x="48" y="42"  font-size="12">✨</text>
+    </svg>
+  </div>
+  <div class="corner corner--tr">
+    <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M5 5 Q60 5 60 60" stroke="#f48fb1" stroke-width="3" fill="none" stroke-dasharray="6 4"/>
+      <path d="M5 5 Q5 60 60 60" stroke="#f48fb1" stroke-width="3" fill="none" stroke-dasharray="6 4"/>
+      <text x="8"  y="28"  font-size="18">🌸</text>
+      <text x="28" y="12"  font-size="14">💕</text>
+      <text x="48" y="42"  font-size="12">✨</text>
+    </svg>
+  </div>
+  <div class="corner corner--bl">
+    <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M5 5 Q60 5 60 60" stroke="#f48fb1" stroke-width="3" fill="none" stroke-dasharray="6 4"/>
+      <path d="M5 5 Q5 60 60 60" stroke="#f48fb1" stroke-width="3" fill="none" stroke-dasharray="6 4"/>
+      <text x="8"  y="28"  font-size="18">🌹</text>
+      <text x="28" y="12"  font-size="14">💗</text>
+      <text x="48" y="42"  font-size="12">🌸</text>
+    </svg>
+  </div>
+  <div class="corner corner--br">
+    <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M5 5 Q60 5 60 60" stroke="#f48fb1" stroke-width="3" fill="none" stroke-dasharray="6 4"/>
+      <path d="M5 5 Q5 60 60 60" stroke="#f48fb1" stroke-width="3" fill="none" stroke-dasharray="6 4"/>
+      <text x="8"  y="28"  font-size="18">🌹</text>
+      <text x="28" y="12"  font-size="14">💗</text>
+      <text x="48" y="42"  font-size="12">🌸</text>
+    </svg>
+  </div>
+
+  <!-- ── Floating hearts & flowers ── -->
+  <div class="floaties-container" id="floatiesContainer"></div>
+
+  <!-- ── Main page ── -->
+  <div class="page-wrap">
+
+    <h1 class="title">💗 Vanie &amp; Kirlinger 💗</h1>
+
+    <!-- Bears row -->
+    <div class="bears-row">
+      <!-- Left bear -->
+      <svg class="bear-svg" viewBox="0 0 160 200" xmlns="http://www.w3.org/2000/svg">
+        <!-- ears -->
+        <circle cx="38" cy="42" r="20" fill="#f8bbd0"/>
+        <circle cx="38" cy="42" r="13" fill="#f48fb1"/>
+        <circle cx="122" cy="42" r="20" fill="#f8bbd0"/>
+        <circle cx="122" cy="42" r="13" fill="#f48fb1"/>
+        <!-- head -->
+        <ellipse cx="80" cy="72" rx="46" ry="44" fill="#fce4ec"/>
+        <!-- face blush -->
+        <ellipse cx="58" cy="82" rx="12" ry="8" fill="#f48fb1" opacity=".45"/>
+        <ellipse cx="102" cy="82" rx="12" ry="8" fill="#f48fb1" opacity=".45"/>
+        <!-- eyes -->
+        <circle cx="66" cy="68" r="7" fill="#4a148c"/>
+        <circle cx="94" cy="68" r="7" fill="#4a148c"/>
+        <circle cx="68" cy="66" r="2.5" fill="#fff"/>
+        <circle cx="96" cy="66" r="2.5" fill="#fff"/>
+        <!-- nose -->
+        <ellipse cx="80" cy="83" rx="8" ry="5" fill="#e91e63"/>
+        <!-- smile -->
+        <path d="M70 93 Q80 103 90 93" stroke="#e91e63" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        <!-- body -->
+        <ellipse cx="80" cy="148" rx="50" ry="52" fill="#fce4ec"/>
+        <!-- arms reaching to center / hug -->
+        <path d="M30 140 Q10 120 20 100 Q30 88 42 100 Q50 110 38 128 Z" fill="#fce4ec"/>
+        <!-- tummy -->
+        <ellipse cx="80" cy="155" rx="28" ry="22" fill="#fff9c4" opacity=".8"/>
+        <!-- heart on tummy -->
+        <text x="68" y="162" font-size="18">💕</text>
+        <!-- legs -->
+        <ellipse cx="60" cy="194" rx="18" ry="12" fill="#fce4ec"/>
+        <ellipse cx="100" cy="194" rx="18" ry="12" fill="#fce4ec"/>
+      </svg>
+
+      <!-- Center beating heart -->
+      <span class="center-heart" role="img" aria-label="coeur">❤️</span>
+
+      <!-- Right bear (mirrored) -->
+      <svg class="bear-svg right" viewBox="0 0 160 200" xmlns="http://www.w3.org/2000/svg" style="transform:scaleX(-1)">
+        <circle cx="38" cy="42" r="20" fill="#f8bbd0"/>
+        <circle cx="38" cy="42" r="13" fill="#ce93d8"/>
+        <circle cx="122" cy="42" r="20" fill="#f8bbd0"/>
+        <circle cx="122" cy="42" r="13" fill="#ce93d8"/>
+        <ellipse cx="80" cy="72" rx="46" ry="44" fill="#f3e5f5"/>
+        <ellipse cx="58" cy="82" rx="12" ry="8" fill="#ce93d8" opacity=".45"/>
+        <ellipse cx="102" cy="82" rx="12" ry="8" fill="#ce93d8" opacity=".45"/>
+        <circle cx="66" cy="68" r="7" fill="#4a148c"/>
+        <circle cx="94" cy="68" r="7" fill="#4a148c"/>
+        <circle cx="68" cy="66" r="2.5" fill="#fff"/>
+        <circle cx="96" cy="66" r="2.5" fill="#fff"/>
+        <ellipse cx="80" cy="83" rx="8" ry="5" fill="#ab47bc"/>
+        <path d="M70 93 Q80 103 90 93" stroke="#ab47bc" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        <ellipse cx="80" cy="148" rx="50" ry="52" fill="#f3e5f5"/>
+        <path d="M30 140 Q10 120 20 100 Q30 88 42 100 Q50 110 38 128 Z" fill="#f3e5f5"/>
+        <ellipse cx="80" cy="155" rx="28" ry="22" fill="#fff9c4" opacity=".8"/>
+        <text x="68" y="162" font-size="18">💜</text>
+        <ellipse cx="60" cy="194" rx="18" ry="12" fill="#f3e5f5"/>
+        <ellipse cx="100" cy="194" rx="18" ry="12" fill="#f3e5f5"/>
+      </svg>
+    </div>
+
+    <!-- Question card -->
+    <div class="question-card">
+      <p class="question-text">
+        🌹 Vanie, Crois-tu que ton cousin<br>
+        <strong>Kirlinger</strong> t'aime ? 💗
+      </p>
+
+      <div class="btn-row" id="btnRow">
+        <button class="btn btn-oui" id="btnOui">Oui</button>
+        <button class="btn btn-non" id="btnNon">Non</button>
+      </div>
+
+      <div class="final-msg" id="finalMsg">
+        Oui mwen konnen li renmen mwen anpil anpil 💗🌹✨
+      </div>
+    </div>
+
+  </div><!-- /.page-wrap -->
+
+  <!-- ── Toast ── -->
+  <div class="toast" id="toast">🎉 Felisitasyon! Ou jwenn bon repons lan! 🎉</div>
+
+  <!-- ── Modal (sad bear) ── -->
+  <div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true" aria-label="Repons Non">
+    <div class="modal" id="modal">
+      <div class="rain-container" id="rainContainer"></div>
+
+      <!-- Sad bear SVG -->
+      <svg class="sad-bear" id="sadBearSvg" viewBox="0 0 160 200" xmlns="http://www.w3.org/2000/svg">
+        <!-- ears -->
+        <circle cx="38"  cy="42" r="20" fill="#b0bec5"/>
+        <circle cx="38"  cy="42" r="13" fill="#90a4ae"/>
+        <circle cx="122" cy="42" r="20" fill="#b0bec5"/>
+        <circle cx="122" cy="42" r="13" fill="#90a4ae"/>
+        <!-- head -->
+        <ellipse cx="80" cy="72" rx="46" ry="44" fill="#cfd8dc"/>
+        <!-- blush -->
+        <ellipse cx="58"  cy="85" rx="12" ry="8" fill="#90a4ae" opacity=".35"/>
+        <ellipse cx="102" cy="85" rx="12" ry="8" fill="#90a4ae" opacity=".35"/>
+        <!-- sad eyes (X shape) -->
+        <line x1="60" y1="62" x2="72" y2="74" stroke="#37474f" stroke-width="3.5" stroke-linecap="round"/>
+        <line x1="72" y1="62" x2="60" y2="74" stroke="#37474f" stroke-width="3.5" stroke-linecap="round"/>
+        <line x1="88" y1="62" x2="100" y2="74" stroke="#37474f" stroke-width="3.5" stroke-linecap="round"/>
+        <line x1="100" y1="62" x2="88" y2="74" stroke="#37474f" stroke-width="3.5" stroke-linecap="round"/>
+        <!-- tears -->
+        <ellipse cx="64" cy="77" rx="3" ry="5" fill="#90caf9" opacity=".9"/>
+        <ellipse cx="96" cy="77" rx="3" ry="5" fill="#90caf9" opacity=".9"/>
+        <!-- nose -->
+        <ellipse cx="80" cy="87" rx="8" ry="5" fill="#546e7a"/>
+        <!-- sad mouth -->
+        <path d="M68 98 Q80 90 92 98" stroke="#546e7a" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        <!-- body -->
+        <ellipse cx="80" cy="150" rx="50" ry="52" fill="#cfd8dc"/>
+        <!-- tummy -->
+        <ellipse cx="80" cy="157" rx="28" ry="22" fill="#eceff1" opacity=".8"/>
+        <!-- broken heart -->
+        <text x="68" y="165" font-size="18">💔</text>
+        <!-- legs -->
+        <ellipse cx="60"  cy="196" rx="18" ry="12" fill="#cfd8dc"/>
+        <ellipse cx="100" cy="196" rx="18" ry="12" fill="#cfd8dc"/>
+        <!-- sad drop tears animated via CSS -->
+        <circle cx="64" cy="80" r="4" fill="#64b5f6" opacity=".0">
+          <animate attributeName="cy" from="80" to="120" dur="1s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0;0.9;0" dur="1s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="96" cy="80" r="4" fill="#64b5f6" opacity=".0">
+          <animate attributeName="cy" from="80" to="120" dur="1s" begin="0.5s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0;0.9;0" dur="1s" begin="0.5s" repeatCount="indefinite"/>
+        </circle>
+      </svg>
+
+      <p class="modal-msg">
+        Non, li se moun ki pi rayi'm nan fanmi an.<br>
+        mwen kriye chak jou lem panse avek sa a 😭
+      </p>
+
+      <button class="modal-close" id="modalClose">Fèmen ✕</button>
+    </div>
+  </div>
+
+  <script>
+    /* ─── Floating hearts & flowers ─────────────────────────── */
+    (function spawnFloaties() {
+      const container = document.getElementById('floatiesContainer');
+      const icons = ['💗','🌸','💕','✨','🌹','💖','🌷','💫','🌺','💝'];
+      for (let i = 0; i < 24; i++) {
+        const el = document.createElement('span');
+        el.className = 'floaty';
+        el.textContent = icons[Math.floor(Math.random() * icons.length)];
+        const left = Math.random() * 96;
+        const dur  = 6 + Math.random() * 10;
+        const delay = Math.random() * -12;
+        const size  = 1.1 + Math.random() * 1.4;
+        el.style.cssText = `left:${left}%;font-size:${size}rem;animation-duration:${dur}s;animation-delay:${delay}s`;
+        container.appendChild(el);
+      }
+    })();
+
+    /* ─── Rain in modal ─────────────────────────────────────── */
+    function spawnRain() {
+      const container = document.getElementById('rainContainer');
+      container.innerHTML = '';
+      for (let i = 0; i < 40; i++) {
+        const drop = document.createElement('div');
+        drop.className = 'raindrop';
+        const left   = Math.random() * 100;
+        const height = 14 + Math.random() * 22;
+        const dur    = 0.6 + Math.random() * 0.8;
+        const delay  = Math.random() * -2;
+        drop.style.cssText = `left:${left}%;height:${height}px;animation-duration:${dur}s;animation-delay:${delay}s`;
+        container.appendChild(drop);
+      }
+    }
+
+    /* ─── Toast ─────────────────────────────────────────────── */
+    function showToast(cb) {
+      const toast = document.getElementById('toast');
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+        if (cb) setTimeout(cb, 300);
+      }, 2200);
+    }
+
+    /* ─── Modal ─────────────────────────────────────────────── */
+    function openModal() {
+      spawnRain();
+      document.getElementById('modalOverlay').classList.add('open');
+    }
+    function closeModal() {
+      document.getElementById('modalOverlay').classList.remove('open');
+    }
+    document.getElementById('modalClose').addEventListener('click', closeModal);
+    document.getElementById('modalOverlay').addEventListener('click', function(e) {
+      if (e.target === this) closeModal();
+    });
+
+    /* ─── "Non" button ──────────────────────────────────────── */
+    document.getElementById('btnNon').addEventListener('click', function() {
+      showToast(openModal);
+    });
+
+    /* ─── "Oui" button — fleeing logic ──────────────────────── */
+    const btnOui = document.getElementById('btnOui');
+    let ouiClicks = 0;
+    const ouiTexts = [
+      'Oui',
+      'Are you sure se sa ou tap chwazi Vanie???',
+      'Non, reseye Vanie',
+    ];
+
+    function getRandomPos() {
+      const btnW = btnOui.offsetWidth  || 120;
+      const btnH = btnOui.offsetHeight || 52;
+      const maxX = window.innerWidth  - btnW - 8;
+      const maxY = window.innerHeight - btnH - 8;
+      return {
+        x: Math.max(8, Math.floor(Math.random() * maxX)),
+        y: Math.max(8, Math.floor(Math.random() * maxY)),
+      };
+    }
+
+    function fleeButton() {
+      if (ouiClicks >= 3) return;
+      btnOui.classList.add('fleeing');
+      const pos = getRandomPos();
+      btnOui.style.left = pos.x + 'px';
+      btnOui.style.top  = pos.y + 'px';
+      btnOui.style.transform = 'none';
+    }
+
+    // Flee on mouse enter (desktop)
+    btnOui.addEventListener('mouseenter', fleeButton);
+
+    // Flee on touch start (mobile — prevents tap from landing)
+    btnOui.addEventListener('touchstart', function(e) {
+      if (ouiClicks >= 3) return;
+      e.preventDefault();
+      fleeButton();
+    }, { passive: false });
+
+    // Click / tap handler
+    btnOui.addEventListener('click', function(e) {
+      if (ouiClicks >= 3) return;
+      ouiClicks++;
+
+      if (ouiClicks < 3) {
+        btnOui.textContent = ouiTexts[ouiClicks];
+        // Resize may change button dimensions — flee again immediately
+        setTimeout(fleeButton, 50);
+      } else {
+        // 3rd click: mute the button & show final answer
+        btnOui.classList.remove('fleeing');
+        btnOui.style.position = '';
+        btnOui.style.left = '';
+        btnOui.style.top  = '';
+        btnOui.style.display = 'none';
+
+        document.getElementById('btnNon').style.display = 'none';
+
+        const finalMsg = document.getElementById('finalMsg');
+        finalMsg.classList.add('visible');
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+{
+  "name": "vanie",
+  "version": "1.0.0",
+  "description": "A family management library",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest",
+    "test:watch": "jest --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kirlinger/Vanie.git"
+  },
+  "keywords": ["family", "genealogy"],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Kirlinger/Vanie/issues"
+  },
+  "homepage": "https://github.com/Kirlinger/Vanie#readme",
+  "devDependencies": {
+    "@types/jest": "^30.0.0",
+    "@types/node": "^25.5.0",
+    "jest": "^30.3.0",
+    "ts-jest": "^29.4.6",
+    "typescript": "^5.9.3"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "testMatch": ["**/__tests__/**/*.test.ts"],
+    "transform": {
+      "^.+\\.tsx?$": ["ts-jest", {"tsconfig": "tsconfig.test.json"}]
+    }
+  }
+}
