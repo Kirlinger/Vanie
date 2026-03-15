@@ -603,6 +603,7 @@
     const btnOui = document.getElementById('btnOui');
     const responseMsg = document.getElementById('responseMsg');
     let ouiClicks = 0;
+    let fleeEnabled = false;
 
     const ouiMessages = [
       'Oui, mwen konnen li renmen m anpil',
@@ -636,7 +637,7 @@
       responseMsg.classList.add('visible');
       /* Re-trigger popIn animation */
       responseMsg.style.animation = 'none';
-      responseMsg.offsetHeight; /* force reflow */
+      void responseMsg.offsetHeight; /* force reflow */
       responseMsg.style.animation = '';
     }
 
@@ -648,7 +649,10 @@
 
       if (ouiClicks === 1) {
         /* After first click, enable fleeing on hover (desktop) */
-        btnOui.addEventListener('mouseenter', fleeButton);
+        if (!fleeEnabled) {
+          fleeEnabled = true;
+          btnOui.addEventListener('mouseenter', fleeButton);
+        }
         setTimeout(fleeButton, 50);
       } else if (ouiClicks < 4) {
         /* Flee again after showing message */
