@@ -182,6 +182,22 @@
       box-shadow: 0 4px 18px rgba(156,39,176,.35);
     }
 
+    /* ─── Response message area ────────────────────────────── */
+    .response-msg {
+      display: none;
+      font-size: clamp(1.05rem, 4vw, 1.35rem);
+      color: #ad1457;
+      text-align: center;
+      margin-top: 18px;
+      padding: 14px 18px;
+      background: rgba(255,255,255,.6);
+      border-radius: 16px;
+      border: 1.5px solid rgba(194,24,91,.15);
+      animation: popIn .5s cubic-bezier(.34,1.56,.64,1) both;
+      line-height: 1.5;
+    }
+    .response-msg.visible { display: block; }
+
     /* ─── Final success message ─────────────────────────────── */
     .final-msg {
       display: none;
@@ -450,6 +466,8 @@
         <button class="btn btn-non" id="btnNon">Non</button>
       </div>
 
+      <div class="response-msg" id="responseMsg"></div>
+
       <div class="final-msg" id="finalMsg">
         Oui mwen konnen li renmen mwen anpil anpil 💗🌹✨
       </div>
@@ -551,6 +569,8 @@
         container.appendChild(drop);
       }
     }
+    /* Pre-spawn rain so modal content is ready immediately */
+    spawnRain();
 
     /* ─── Toast ─────────────────────────────────────────────── */
     function showToast(cb) {
@@ -564,7 +584,6 @@
 
     /* ─── Modal ─────────────────────────────────────────────── */
     function openModal() {
-      spawnRain();
       document.getElementById('modalOverlay').classList.add('open');
     }
     function closeModal() {
@@ -582,11 +601,14 @@
 
     /* ─── "Oui" button — fleeing logic ──────────────────────── */
     const btnOui = document.getElementById('btnOui');
+    const responseMsg = document.getElementById('responseMsg');
     let ouiClicks = 0;
-    const ouiTexts = [
-      'Oui',
-      'Are you sure se sa ou tap chwazi Vanie???',
-      'Non, reseye Vanie',
+
+    const ouiMessages = [
+      'Oui, mwen konnen li renmen m anpil',
+      'Non, reeseye Vanie',
+      'Are you sure se sa ou tap chwazi Va???',
+      'Ou echwe baz.'
     ];
 
     function getRandomPos() {
@@ -601,7 +623,7 @@
     }
 
     function fleeButton() {
-      if (ouiClicks >= 3) return;
+      if (ouiClicks >= 4) return;
       btnOui.classList.add('fleeing');
       const pos = getRandomPos();
       btnOui.style.left = pos.x + 'px';
@@ -609,39 +631,52 @@
       btnOui.style.transform = 'none';
     }
 
-    // Flee on mouse enter (desktop)
-    btnOui.addEventListener('mouseenter', fleeButton);
+    function showResponseMessage(index) {
+      responseMsg.textContent = ouiMessages[index];
+      responseMsg.classList.add('visible');
+      /* Re-trigger popIn animation */
+      responseMsg.style.animation = 'none';
+      responseMsg.offsetHeight; /* force reflow */
+      responseMsg.style.animation = '';
+    }
 
-    // Flee on touch start (mobile — prevents tap from landing)
-    btnOui.addEventListener('touchstart', function(e) {
-      if (ouiClicks >= 3) return;
-      e.preventDefault();
-      fleeButton();
-    }, { passive: false });
+    function handleOuiClick() {
+      if (ouiClicks >= 4) return;
 
-    // Click / tap handler
-    btnOui.addEventListener('click', function(e) {
-      if (ouiClicks >= 3) return;
+      showResponseMessage(ouiClicks);
       ouiClicks++;
 
-      if (ouiClicks < 3) {
-        btnOui.textContent = ouiTexts[ouiClicks];
-        // Resize may change button dimensions — flee again immediately
+      if (ouiClicks === 1) {
+        /* After first click, enable fleeing on hover (desktop) */
+        btnOui.addEventListener('mouseenter', fleeButton);
+        setTimeout(fleeButton, 50);
+      } else if (ouiClicks < 4) {
+        /* Flee again after showing message */
         setTimeout(fleeButton, 50);
       } else {
-        // 3rd click: mute the button & show final answer
+        /* 4th click — stop fleeing, hide buttons */
         btnOui.classList.remove('fleeing');
         btnOui.style.position = '';
         btnOui.style.left = '';
         btnOui.style.top  = '';
         btnOui.style.display = 'none';
-
         document.getElementById('btnNon').style.display = 'none';
-
-        const finalMsg = document.getElementById('finalMsg');
-        finalMsg.classList.add('visible');
       }
-    });
+    }
+
+    /* Click handler (works on desktop and first mobile tap) */
+    btnOui.addEventListener('click', handleOuiClick);
+
+    /* Touch handler (mobile — handles taps after first click) */
+    btnOui.addEventListener('touchstart', function(e) {
+      if (ouiClicks === 0) {
+        /* First touch: let click event handle it naturally */
+        return;
+      }
+      if (ouiClicks >= 4) return;
+      e.preventDefault();
+      handleOuiClick();
+    }, { passive: false });
   </script>
 </body>
 </html>
