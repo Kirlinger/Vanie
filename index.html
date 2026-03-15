@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vanie — Portfolio Personnel</title>
+  <meta name="description" content="Vanie — Site personnel et portfolio de Kirlinger Jeune. Développeur web passionné par la culture haïtienne et les technologies modernes." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- ===== NAVIGATION ===== -->
+  <nav class="navbar" role="navigation" aria-label="Navigation principale">
+    <div class="container navbar__inner">
+      <a href="#" class="navbar__brand" aria-label="Accueil Vanie">
+        <div class="navbar__logo">
+          Vanie
+          <span>Portfolio Personnel</span>
+        </div>
+      </a>
+      <button class="navbar__toggle" aria-expanded="false" aria-controls="main-menu" aria-label="Ouvrir le menu">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="navbar__menu" id="main-menu" role="list">
+        <li><a href="#accueil">Accueil</a></li>
+        <li><a href="#a-propos">À propos</a></li>
+        <li><a href="#projets">Projets</a></li>
+        <li><a href="#competences">Compétences</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero" id="accueil" aria-label="Présentation">
+    <div class="hero__shapes">
+      <div class="shape shape-1"></div>
+      <div class="shape shape-2"></div>
+      <div class="shape shape-3"></div>
+    </div>
+    <div class="container">
+      <div class="hero__content">
+        <div class="hero__eyebrow">👋 Bienvenue sur mon portfolio</div>
+        <h1 class="hero__title">
+          Je suis <em>Vanie</em>,<br />Développeur &amp; Créateur
+        </h1>
+        <p class="hero__subtitle">
+          Passionné par le développement web, la culture haïtienne et les technologies modernes.
+          Je crée des expériences numériques qui racontent des histoires et connectent les gens.
+        </p>
+        <div class="hero__actions">
+          <a href="#projets" class="btn btn--primary">Voir mes projets</a>
+          <a href="#contact" class="btn btn--outline">Me contacter</a>
+        </div>
+      </div>
+    </div>
+    <div class="hero__scroll" aria-hidden="true">Défiler</div>
+  </section>
+
+  <!-- ===== À PROPOS ===== -->
+  <section class="section section--alt" id="a-propos" aria-labelledby="about-heading">
+    <div class="container">
+      <div class="section-header">
+        <span class="tag">À propos</span>
+        <h2 id="about-heading">Qui suis-je ?</h2>
+        <p>Développeur web passionné, je mets la technologie au service de la culture et de l'histoire.</p>
+      </div>
+      <div class="about-grid">
+        <div class="about-card">
+          <div class="about-card__icon">🎯</div>
+          <h3>Ma Mission</h3>
+          <p>Créer des plateformes numériques qui préservent et partagent le patrimoine culturel haïtien avec le monde entier.</p>
+        </div>
+        <div class="about-card">
+          <div class="about-card__icon">💡</div>
+          <h3>Ma Vision</h3>
+          <p>Utiliser les technologies modernes pour rendre l'information accessible, belle et engageante pour tous.</p>
+        </div>
+        <div class="about-card">
+          <div class="about-card__icon">🌍</div>
+          <h3>Mes Valeurs</h3>
+          <p>Authenticité, accessibilité et excellence — chaque projet est une opportunité de faire la différence.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PROJETS ===== -->
+  <section class="section" id="projets" aria-labelledby="projects-heading">
+    <div class="container">
+      <div class="section-header">
+        <span class="tag">Portfolio</span>
+        <h2 id="projects-heading">Mes Projets</h2>
+        <p>Découvrez une sélection de mes réalisations les plus récentes.</p>
+      </div>
+      <div class="cards-grid">
+
+        <article class="card">
+          <div class="card__icon">🇭🇹</div>
+          <div class="card__body">
+            <h3>Découvrir Haïti</h3>
+            <p>Plateforme culturelle et historique consacrée à Haïti, sa mémoire, sa culture, son histoire et ses institutions.</p>
+            <a href="https://kirlinger.github.io/Decouvrir-Haiti/" class="card__link" target="_blank" rel="noopener">Visiter le site →</a>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card__icon card__icon--red">📚</div>
+          <div class="card__body">
+            <h3>Haiti Culture</h3>
+            <p>Site dédié à la richesse culturelle haïtienne : art, musique, littérature, traditions et patrimoine vivant.</p>
+            <a href="https://github.com/Kirlinger/haiti-culture" class="card__link" target="_blank" rel="noopener">Voir sur GitHub →</a>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card__icon card__icon--gold">⚛️</div>
+          <div class="card__body">
+            <h3>Haitian Project</h3>
+            <p>Application web moderne construite avec React et Vite, explorant de nouvelles façons de présenter la culture haïtienne.</p>
+            <a href="https://github.com/Kirlinger/Haitian-Project" class="card__link" target="_blank" rel="noopener">Voir sur GitHub →</a>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== COMPÉTENCES ===== -->
+  <section class="section section--alt" id="competences" aria-labelledby="skills-heading">
+    <div class="container">
+      <div class="section-header">
+        <span class="tag">Compétences</span>
+        <h2 id="skills-heading">Technologies &amp; Outils</h2>
+        <p>Les technologies que j'utilise pour donner vie à mes projets.</p>
+      </div>
+      <div class="skills-grid">
+        <div class="skill-card">
+          <div class="skill-card__icon">🌐</div>
+          <div class="skill-card__name">HTML5</div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-card__icon">🎨</div>
+          <div class="skill-card__name">CSS3</div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-card__icon">⚡</div>
+          <div class="skill-card__name">JavaScript</div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-card__icon">⚛️</div>
+          <div class="skill-card__name">React</div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-card__icon">🚀</div>
+          <div class="skill-card__name">Vite</div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-card__icon">🐙</div>
+          <div class="skill-card__name">Git &amp; GitHub</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CONTACT ===== -->
+  <section class="section section--dark" id="contact" aria-labelledby="contact-heading">
+    <div class="container">
+      <div class="section-header">
+        <span class="tag tag--gold">Contact</span>
+        <h2 id="contact-heading">Restons en contact</h2>
+      </div>
+      <div class="contact-content">
+        <p>Vous avez un projet en tête ou souhaitez collaborer ? N'hésitez pas à me contacter.</p>
+        <div class="contact-links">
+          <a href="https://github.com/Kirlinger" class="btn btn--gold" target="_blank" rel="noopener">
+            GitHub
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer__inner">
+        <div class="footer__brand">
+          <span class="footer__brand-name">Vanie</span>
+          <p class="footer__desc">Portfolio personnel — Développement web &amp; Culture haïtienne</p>
+        </div>
+        <div class="footer__links">
+          <a href="#accueil">Accueil</a>
+          <a href="#a-propos">À propos</a>
+          <a href="#projets">Projets</a>
+          <a href="#competences">Compétences</a>
+          <a href="#contact">Contact</a>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <p>&copy; 2024 Vanie — <a href="https://github.com/Kirlinger">Kirlinger Jeune</a></p>
+        <p>L'Union fait la Force</p>
+      </div>
+    </div>
+  </footer>
+
+  <button class="back-to-top" aria-label="Retour en haut de page">↑</button>
+  <script src="js/script.js"></script>
+</body>
+</html>
